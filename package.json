@@ -1,0 +1,10 @@
+{
+  "name": "vitality",
+  "version": "0.0.1",
+  "description": "server vitality",
+  "main": "index.js",
+  "scripts": {
+  },
+  "author": "slava hatnuke <slava.hatnuke@gmail.com> (https://github.com/slavahatnuke)",
+  "license": "BSD"
+}

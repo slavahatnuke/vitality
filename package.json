@@ -1,10 +1,14 @@
 {
-  "name": "vitality",
-  "version": "0.0.1",
-  "description": "server vitality",
-  "main": "index.js",
-  "scripts": {
-  },
-  "author": "slava hatnuke <slava.hatnuke@gmail.com> (https://github.com/slavahatnuke)",
-  "license": "BSD"
+	"name": "vitality",
+	"version": "0.0.2",
+	"description": "vitality",
+	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:slavahatnuke/vitality.git"
+	},  
+	"scripts": {
+	},
+	"author": "slava hatnuke <slava.hatnuke@gmail.com> (https://github.com/slavahatnuke)",
+	"license": "BSD"
 }

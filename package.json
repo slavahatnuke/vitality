@@ -10,5 +10,12 @@
 	"scripts": {
 	},
 	"author": "slava hatnuke <slava.hatnuke@gmail.com> (https://github.com/slavahatnuke)",
-	"license": "BSD"
+	"license": "BSD",
+    "dependencies": {
+        "js-yaml": "latest",
+        "underscore": "latest",
+        "commander": "latest",
+        "async": "latest"
+
+    }
 }

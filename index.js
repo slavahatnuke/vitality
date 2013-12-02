@@ -13,7 +13,7 @@ _(yml).each(function (config, name) {
     map.push(new Definition(name, config));
 });
 
-var final_print = function (defenition, next) {
+var print_definition = function (defenition, next) {
     console.log('[' + defenition.status + ']', defenition.title);
     next();
 }
@@ -73,13 +73,13 @@ var handleTest = function (defenition, next) {
                             handleTest(defenition, next);
                         }
                         else {
-                            final_print(defenition, next);
+                            print_definition(defenition, next);
                         }
 
                     });
                 }
                 else {
-                    final_print(defenition, next);
+                    print_definition(defenition, next);
                 }
             });
     }

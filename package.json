@@ -1,6 +1,6 @@
 {
 	"name": "vitality",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "vitality",
 	"main": "index.js",
 	"repository": {
@@ -18,6 +18,7 @@
         "define-class": "latest",
         "async": "latest"
     },
+    "readmeFilename": "README.md",
     "bin": {
         "vitality": "./bin/vitality"
     }

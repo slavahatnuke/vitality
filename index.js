@@ -111,7 +111,7 @@ program
 
 program
     .command('*')
-    .description('run profile')
+    .description('handle <file ...>')
     .action(function (env) {
         run(env);
     });

@@ -1,27 +1,34 @@
-module.exports = function(name, config){
+var Class = require('define-class');
 
-    this.name = name;
+var Definition = Class({
 
-    this.title = config.title ? config.title : name;
+    init: function(name, config){
 
-    this.test = config.test ? config.test : null;
-    this.build = config.build ? config.build : null;
+        this.name = name;
 
-    this.tested = false;
-    this.built = false;
+        this.title = config.title ? config.title : name;
 
-    this.tested_result = false;
-    this.built_result = false;
+        this.test = config.test ? config.test : null;
+        this.build = config.build ? config.build : null;
 
-    this.status = 'skip';
+        this.tested = false;
+        this.built = false;
 
-    this.test_output = {
-        error: null,
-        out: null
+        this.tested_result = false;
+        this.built_result = false;
+
+        this.status = 'skip';
+
+        this.test_output = {
+            error: null,
+            out: null
+        }
+
+        this.build_output = {
+            error: null,
+            out: null
+        }
     }
+});
 
-    this.build_output = {
-        error: null,
-        out: null
-    }
-}
+module.exports = Definition;

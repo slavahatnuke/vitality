@@ -1,6 +1,6 @@
 {
 	"name": "vitality",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "vitality",
 	"main": "index.js",
 	"repository": {
@@ -15,7 +15,10 @@
         "js-yaml": "latest",
         "underscore": "latest",
         "commander": "latest",
+        "define-class": "latest",
         "async": "latest"
-
+    },
+    "bin": {
+        "vitality": "./bin/vitality"
     }
 }

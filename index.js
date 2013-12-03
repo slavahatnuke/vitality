@@ -3,15 +3,10 @@ require('js-yaml');
 var _ = require('underscore');
 var async = require('async');
 var exec = require('child_process').exec;
+var pkg = require('./package');
+var path = require('path');
 
 var Definition = require('./model/Definition');
-var yml = require('./vitality.yml');
-
-var map = [];
-
-_(yml).each(function (config, name) {
-    map.push(new Definition(name, config));
-});
 
 var print_definition = function (defenition, next) {
     console.log('[' + defenition.status + ']', defenition.title);
@@ -68,8 +63,7 @@ var handleTest = function (defenition, next) {
 
                     handleBuild(defenition, function () {
 
-                        if(defenition.built)
-                        {
+                        if (defenition.built) {
                             handleTest(defenition, next);
                         }
                         else {
@@ -88,8 +82,45 @@ var handleTest = function (defenition, next) {
     }
 };
 
+function run(file) {
 
-async.each(map, handleTest, function (err) {
-    if (err)
-        console.log(err);
-});
+    var data = require(path.resolve(file));
+
+    var definitions = [];
+
+    _(data).each(function (config, name) {
+        definitions.push(new Definition(name, config));
+    });
+
+    async.each(definitions, handleTest, function (err) {
+        if (err)
+        {
+            console.log(err);
+        }
+    });
+
+}
+
+
+var program = require('commander');
+
+program
+    .version(pkg.version)
+    .usage('[options] <file ...>')
+    .option('-v, --verbose', 'verbose mode');
+
+program
+    .command('*')
+    .description('run profile')
+    .action(function (env) {
+        run(env);
+    });
+
+program.parse(process.argv);
+
+if(!program.args.length)
+{
+    console.log( program.helpInformation() );
+}
+
+

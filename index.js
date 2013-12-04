@@ -1,4 +1,4 @@
-var Vitality = require('./lib/vitality');
+var Vitality = require('./src/vitality');
 var vitality = new Vitality();
 
 var program = require('commander');

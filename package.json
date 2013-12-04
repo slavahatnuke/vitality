@@ -16,7 +16,8 @@
         "underscore": "latest",
         "commander": "latest",
         "define-class": "latest",
-        "async": "latest"
+        "async": "latest",
+        "command": "latest"
     },
     "readmeFilename": "README.md",
     "bin": {

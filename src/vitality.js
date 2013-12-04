@@ -6,6 +6,7 @@ var _ = require('underscore');
 var async = require('async');
 var exec = require('child_process').exec;
 var path = require('path');
+var command = require('command');
 
 var Definition = require('./model/Definition');
 var Profile = require('./model/Profile');

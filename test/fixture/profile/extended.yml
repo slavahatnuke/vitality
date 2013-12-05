@@ -1,0 +1,33 @@
+example1
+  name:   Install less
+  if:
+    command: which less
+    command.assert:
+      code.not: 0
+      contains.not: some/path/to/less
+      # ....
+    # ....
+  else:   npm -g install less
+
+example2
+  name:   Install less
+  if:     which less
+  else:
+    - npm -g install less
+    # next command
+    # .....
+
+example3
+  name:   Install less
+  if:     which less
+  else:
+    command: npm -g install less
+
+example4
+  name:   Install less
+  if:     which less
+  else:
+    command: npm -g install less
+    command.assert:
+      code.not: 0
+      # ....

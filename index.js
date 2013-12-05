@@ -1,4 +1,4 @@
-var Vitality = require('./src/vitality');
+var Vitality = require('./src/Vitality');
 var vitality = new Vitality();
 
 var program = require('commander');
@@ -12,12 +12,13 @@ program
     .command('*')
     .description('handle <file ...>')
     .action(function (env) {
-        vitality.handleFile(env);
+        vitality.run(env);
     });
 
 program.parse(process.argv);
 
 if(!program.args.length)
     program.help();
+
 
 module.exports = vitality;

@@ -4,9 +4,9 @@ var Class = require('define-class');
 
 var _ = require('underscore');
 var async = require('async');
-var exec = require('child_process').exec;
 var path = require('path');
-var command = require('command');
+
+var Command = require('./command/Command');
 
 var Definition = require('./model/Definition');
 var Profile = require('./model/Profile');
@@ -22,7 +22,7 @@ var Vitality = Class({
     init: function(){
 
     },
-    handleFile: function(file)
+    run: function(file)
     {
 
         console.log('[run]', file);
@@ -35,29 +35,35 @@ var Vitality = Class({
             definitions.push(new Definition(name, config));
         });
 
-        async.eachSeries(definitions, _(this.handleTest).bind(this), function (err) {
+        async.eachSeries(definitions, _(this.runTest).bind(this), function (err) {
+
+            process.exit(0);
+
             if (err)
             {
+                process.exit(1);
                 console.log(err);
             }
         });
+
+
     },
-    handleTest: function (defenition, next) {
+    runTest: function (defenition, next) {
 
         var self = this;
 
         if (defenition.test) {
-            exec(
-                defenition.test,
 
-                function (error, stdout, stderr) {
+            var command = new Command(defenition.test);
 
-                    defenition.test_output.error = stderr;
-                    defenition.test_output.out = stdout;
+            command.run(function(){
+
+                    defenition.test_output.error = command.stderr;
+                    defenition.test_output.out = command.stdout;
 
                     defenition.tested = true;
 
-                    if (error !== null) {
+                    if (command.code) {
                         defenition.status = 'fail';
                     } else {
                         defenition.status = 'ok';
@@ -66,10 +72,10 @@ var Vitality = Class({
 
                     if (!defenition.tested_result && defenition.build && !defenition.built) {
 
-                        self.handleBuild(defenition, function () {
+                        self.runBuild(defenition, function () {
 
                             if (defenition.built) {
-                                self.handleTest(defenition, next);
+                                self.runTest(defenition, next);
                             }
                             else {
                                 print_definition(defenition, next);
@@ -80,37 +86,36 @@ var Vitality = Class({
                     else {
                         print_definition(defenition, next);
                     }
-                });
+            });
         }
         else {
             next();
         }
     },
 
-    handleBuild: function (defenition, next) {
+    runBuild: function (defenition, next) {
 
         console.log('[build]', defenition.title);
         console.log('>', defenition.build);
 
-        exec(
-            defenition.build,
+        var command = new Command(defenition.build, true);
 
-            function (error, stdout, stderr) {
+        command.run(function(){
 
-                defenition.build_output.error = stderr;
-                defenition.build_output.out = stdout;
+            defenition.build_output.error = command.stderr;
+            defenition.build_output.out = command.stdout;
 
-                defenition.built = true;
+            defenition.built = true;
 
-                if (error !== null) {
+            if (command.code) {
 
-                } else {
-                    defenition.built_result = true;
-                }
+            } else {
+                defenition.built_result = true;
+            }
 
-                next();
+            next();
 
-            });
+        });
     }
 
 });

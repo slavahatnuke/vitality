@@ -3,54 +3,54 @@ var exec = require('child_process').exec
 
 var Command = Class({
 
-        command: false,
-        stdio: false,
-        process: false,
+    command: false,
+    stdio: false,
 
-        error: false,
-        stdout: false,
-        stderr: false,
+    process: false,
 
-        result: '',
-        code: 0,
+    error: false,
+    stdout: false,
+    stderr: false,
 
-        init: function (command, stdio) {
-            this.command = command;
-            this.stdio = stdio;
-            this.error = null;
-        },
+    result: '',
+    code: 0,
 
-        run: function (next) {
-            var self = this;
+    init: function (command, stdio) {
+        this.command = command;
+        this.stdio = stdio;
+        this.error = null;
+    },
 
-            this.process = exec(this.command,
-                function (error, stdout, stderr) {
+    run: function (next) {
+        var self = this;
 
-                    self.error = error;
+        this.process = exec(this.command,
+            function (error, stdout, stderr) {
 
-                    self.stdout = stdout;
-                    self.stderr = stderr;
+                self.error = error;
 
-                    self.result = '' + stdout + stderr;
+                self.stdout = stdout;
+                self.stderr = stderr;
 
-                    if (error) {
-                        self.code = error.code;
-                    }
+                self.result = '' + stdout + stderr;
 
-                    if (next)
-                        next(error, self);
-                });
+                if (error) {
+                    self.code = error.code;
+                }
 
-            if (this.stdio) {
-                this.process.stdout.pipe(process.stdout);
-                this.process.stderr.pipe(process.stderr);
-                this.process.stdin.pipe(process.stdin);
-            }
+                if (next)
+                    next(error, self);
+            });
 
+        if (this.stdio) {
+            this.process.stdout.pipe(process.stdout);
+            this.process.stderr.pipe(process.stderr);
+            this.process.stdin.pipe(process.stdin);
         }
 
+    }
 
-    })
-    ;
+
+});
 
 module.exports = Command;

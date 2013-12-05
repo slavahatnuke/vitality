@@ -31,3 +31,10 @@ example4
     command.assert:
       code.not: 0
       # ....
+
+example4
+  name:   Install less
+  if:     which less
+  else:   npm -g install less
+  depends:
+    - example

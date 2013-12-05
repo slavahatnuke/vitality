@@ -18,6 +18,10 @@
         "define-class": "latest",
         "async": "latest"
     },
+    "devDependencies": {
+        "mocha": "latest",
+        "should": "latest"
+    },
     "readmeFilename": "README.md",
     "bin": {
         "vitality": "./bin/vitality"

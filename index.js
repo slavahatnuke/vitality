@@ -11,14 +11,11 @@ program
 program
     .command('*')
     .description('handle <file ...>')
-    .action(function (env) {
-        vitality.run(env);
+    .action(function (profile) {
+        vitality.run(profile);
     });
 
 program.parse(process.argv);
 
 if(!program.args.length)
     program.help();
-
-
-module.exports = vitality;

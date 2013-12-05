@@ -5,8 +5,8 @@ var program = require('commander');
 
 program
     .version(require('./package').version)
-    .usage('[options] <file ...>')
-    .option('-v, --verbose', 'verbose mode');
+    .usage('[options] <file ...>');
+//    .option('-v, --verbose', 'verbose mode');
 
 program
     .command('*')

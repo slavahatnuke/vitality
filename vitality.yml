@@ -1,5 +1,9 @@
 
 lessc.is.installed:
   title:  lessc is installed
+  test:   which lessc1
+#  build:  npm -g install less
+
+lessc.is.installed2:
+  title:  lessc is installed
   test:   which lessc
-  build:  npm -g install less

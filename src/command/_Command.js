@@ -17,6 +17,7 @@ var Command = Class({
         init: function (command, stdio) {
             this.command = command;
             this.stdio = stdio;
+            this.error = null;
         },
 
         run: function (next) {

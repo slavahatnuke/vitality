@@ -11,6 +11,10 @@ var Definition = Class({
         this.test = config.test ? config.test : null;
         this.build = config.build ? config.build : null;
 
+//        this.passed = false;
+//        this.skipped = false;
+//        this.failed = false;
+
         this.tested = false;
         this.built = false;
 

@@ -35,16 +35,17 @@ var Vitality = Class({
             definitions.push(new Definition(name, config));
         });
 
-        async.eachSeries(definitions, _(this.runTest).bind(this), function (err) {
+        async.eachSeries(definitions, _(this.runTest).bind(this), function(){
+
+            _(definitions).each(function (definition) {
+                if(definition.status == 'fail')
+                    process.exit(1);
+            });
 
             process.exit(0);
 
-            if (err)
-            {
-                process.exit(1);
-                console.log(err);
-            }
         });
+
 
 
     },
@@ -113,7 +114,7 @@ var Vitality = Class({
                 defenition.built_result = true;
             }
 
-            next();
+            next(command.error);
 
         });
     }

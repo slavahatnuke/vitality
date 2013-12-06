@@ -1,5 +1,5 @@
 
-lessc.is.installed:
+lessc:
   title:  lessc is installed
   if:   which lessc
-  else:  npm -g install less
+  else: npm install -g less

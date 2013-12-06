@@ -8,8 +8,8 @@ var Definition = Class({
 
         this.title = config.title ? config.title : name;
 
-        this.test = config.test ? config.test : null;
-        this.build = config.build ? config.build : null;
+        this.if = config.if ? config.if : null;
+        this.else = config.else ? config.else : null;
 
 //        this.passed = false;
 //        this.skipped = false;

@@ -1,6 +1,0 @@
-{
-    "lessc.is.installed": {
-        "title": "lessc is installed",
-        "test": "which lessc"
-    }
-}

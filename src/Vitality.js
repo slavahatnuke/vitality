@@ -3,90 +3,94 @@ require('js-yaml');
 var Class = require('define-class');
 
 var _ = require('underscore');
-var async = require('async');
 var path = require('path');
 
 var Command = require('./command/Command');
-
 var Definition = require('./model/Definition');
 var Profile = require('./model/Profile');
 
 
-var print_definition = function (defenition, next) {
-    console.log('[' + defenition.status + ']', defenition.title);
-    next();
-}
-
 var Vitality = Class({
 
-    init: function(){
+    init: function () {
 
     },
-    run: function(file)
-    {
 
-        console.log('[run]', file);
+    print: function (defenition, next) {
+        console.log('[' + defenition.status + ']', defenition.title);
+        next();
+    },
 
-        var data = require(path.resolve(file));
+    buildProfile: function (data) {
 
-        var definitions = [];
+        var profile = new Profile();
 
         _(data).each(function (config, name) {
-            definitions.push(new Definition(name, config));
+            profile.add(new Definition(name, config));
         });
 
-        async.eachSeries(definitions, _(this.runTest).bind(this), function(){
+        return profile;
+    },
 
-            _(definitions).each(function (definition) {
-                if(definition.status == 'fail')
+    handleProfile: function (profile) {
+
+        var next = function () {
+
+            profile.each(function (definition) {
+                if (definition.status == 'fail')
                     process.exit(1);
             });
 
             process.exit(0);
+        };
 
-        });
+        profile.each(_(this.runTest).bind(this), next);
+    },
+    run: function (file) {
 
+        var data = require(path.resolve(file));
+        var profile = this.buildProfile(data);
 
-
+        this.handleProfile(profile);
     },
     runTest: function (defenition, next) {
 
         var self = this;
 
-        if (defenition.test) {
+        if (defenition.if) {
 
-            var command = new Command(defenition.test);
+            var command = new Command(defenition.if);
 
-            command.run(function(){
+            command.run(function () {
 
-                    defenition.test_output.error = command.stderr;
-                    defenition.test_output.out = command.stdout;
+                defenition.test_output.error = command.stderr;
+                defenition.test_output.out = command.stdout;
 
-                    defenition.tested = true;
+                defenition.tested = true;
 
-                    if (command.code) {
-                        defenition.status = 'fail';
-                    } else {
-                        defenition.status = 'ok';
-                        defenition.tested_result = true;
-                    }
+                if (command.code) {
+                    defenition.status = 'fail';
+                } else {
+                    defenition.status = 'ok';
+                    defenition.tested_result = true;
+                }
 
-                    if (!defenition.tested_result && defenition.build && !defenition.built) {
+                if (!defenition.tested_result && defenition.else && !defenition.built) {
 
-                        self.runBuild(defenition, function () {
+                    self.runBuild(defenition, function () {
 
-                            if (defenition.built) {
-                                self.runTest(defenition, next);
-                            }
-                            else {
-                                print_definition(defenition, next);
-                            }
+                        if (defenition.built) {
+                            self.runTest(defenition, next);
+                        }
+                        else {
+                            self.print(defenition, next);
+                        }
 
-                        });
-                    }
-                    else {
-                        print_definition(defenition, next);
-                    }
+                    });
+                }
+                else {
+                    self.print(defenition, next);
+                }
             });
         }
         else {
@@ -97,11 +101,11 @@ var Vitality = Class({
     runBuild: function (defenition, next) {
 
         console.log('[build]', defenition.title);
-        console.log('>', defenition.build);
+        console.log('>', defenition.else);
 
-        var command = new Command(defenition.build, true);
+        var command = new Command(defenition.else, true);
 
-        command.run(function(){
+        command.run(function () {
 
             defenition.build_output.error = command.stderr;
             defenition.build_output.out = command.stdout;

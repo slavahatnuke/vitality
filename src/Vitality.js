@@ -16,12 +16,12 @@ var Vitality = Class({
 
     },
 
-    print: function (defenition, next) {
+    printDefinition: function (defenition, next) {
         console.log('[' + defenition.status + ']', defenition.title);
         next();
     },
 
-    buildProfile: function (data) {
+    constructProfile: function (data) {
 
         var profile = new Profile();
 
@@ -32,7 +32,7 @@ var Vitality = Class({
         return profile;
     },
 
-    handleProfile: function (profile) {
+    runProfile: function (profile) {
 
         var next = function () {
 
@@ -49,9 +49,9 @@ var Vitality = Class({
     run: function (file) {
 
         var data = require(path.resolve(file));
-        var profile = this.buildProfile(data);
+        var profile = this.constructProfile(data);
 
-        this.handleProfile(profile);
+        this.runProfile(profile);
     },
     runTest: function (defenition, next) {
 
@@ -83,13 +83,13 @@ var Vitality = Class({
                             self.runTest(defenition, next);
                         }
                         else {
-                            self.print(defenition, next);
+                            self.printDefinition(defenition, next);
                         }
 
                     });
                 }
                 else {
-                    self.print(defenition, next);
+                    self.printDefinition(defenition, next);
                 }
             });
         }

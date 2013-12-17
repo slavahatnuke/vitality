@@ -1,4 +1,5 @@
-require('js-yaml');
+var yaml = require('js-yaml');
+var fs   = require('fs');
 
 var Class = require('define-class');
 
@@ -48,7 +49,10 @@ var Vitality = Class({
     },
     run: function (file) {
 
-        var data = require(path.resolve(file));
+        var data = yaml.safeLoad(
+            fs.readFileSync(path.resolve(file), 'utf8')
+        );
+
         var profile = this.constructProfile(data);
 
         this.runProfile(profile);

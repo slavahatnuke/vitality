@@ -15,7 +15,6 @@
         "js-yaml": "latest",
         "underscore": "latest",
         "commander": "latest",
-        "define-class": "latest",
         "async": "latest",
         "class": "latest"
     },

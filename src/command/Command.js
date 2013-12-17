@@ -1,7 +1,7 @@
-var Class = require('define-class');
+var Class = require('class');
 var exec = require('child_process').exec
 
-var Command = Class({
+var Command = Class.new({
 
     command: false,
     stdio: false,
@@ -15,7 +15,7 @@ var Command = Class({
     result: '',
     code: 0,
 
-    init: function (command, stdio) {
+    initialize: function (command, stdio) {
         this.command = command;
         this.stdio = stdio;
         this.error = null;

@@ -1,5 +1,5 @@
 var Vitality = require('./src/Vitality');
-var vitality = new Vitality();
+var vitality = Vitality.new();
 
 var program = require('commander');
 

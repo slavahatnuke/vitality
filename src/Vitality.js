@@ -1,7 +1,7 @@
 var yaml = require('js-yaml');
 var fs   = require('fs');
 
-var Class = require('define-class');
+var Class = require('class');
 
 var _ = require('underscore');
 var path = require('path');
@@ -11,11 +11,7 @@ var Definition = require('./model/Definition');
 var Profile = require('./model/Profile');
 
 
-var Vitality = Class({
-
-    init: function () {
-
-    },
+var Vitality = Class.new({
 
     printDefinition: function (defenition, next) {
         console.log('[' + defenition.status + ']', defenition.title);
@@ -24,10 +20,10 @@ var Vitality = Class({
 
     constructProfile: function (data) {
 
-        var profile = new Profile();
+        var profile = Profile.new();
 
         _(data).each(function (config, name) {
-            profile.add(new Definition(name, config));
+            profile.add(Definition.new(name, config));
         });
 
         return profile;
@@ -63,7 +59,7 @@ var Vitality = Class({
 
         if (defenition.if) {
 
-            var command = new Command(defenition.if);
+            var command = Command.new(defenition.if);
 
             command.run(function () {
 
@@ -107,7 +103,7 @@ var Vitality = Class({
         console.log('[build]', defenition.title);
         console.log('>', defenition.else);
 
-        var command = new Command(defenition.else, true);
+        var command = Command.new(defenition.else, true);
 
         command.run(function () {
 

@@ -1,14 +1,14 @@
-example1
+example1:
   name:   Install less
   if:     which less
   else:   npm -g install less
 
-example2
+example2:
   name:   Install less
   if.not: which less
   then:   npm -g install less
 
-example3
+example3:
   name:   Install less
   if:     which less
   else:   npm -g install less

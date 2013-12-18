@@ -1,4 +1,4 @@
-example1
+example1:
   name:   Install less
   if:
     command: which less
@@ -9,7 +9,7 @@ example1
     # ....
   else:   npm -g install less
 
-example2
+example2:
   name:   Install less
   if:     which less
   else:
@@ -17,13 +17,13 @@ example2
     # next command
     # .....
 
-example3
+example3:
   name:   Install less
   if:     which less
   else:
     command: npm -g install less
 
-example4
+example4:
   name:   Install less
   if:     which less
   else:
@@ -32,7 +32,7 @@ example4
       code.not: 0
       # ....
 
-example4
+example5:
   name:   Install less
   if:     which less
   else:   npm -g install less

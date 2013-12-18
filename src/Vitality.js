@@ -13,8 +13,13 @@ var Profile = require('./model/Profile');
 
 var Vitality = Class({
 
+    log: false,
+
+    init: function(log){
+        this.log = log ? log : console.log;
+    },
     printDefinition: function (defenition, next) {
-        console.log('[' + defenition.status + ']', defenition.title);
+        this.log('[' + defenition.status + ']', defenition.title);
         next();
     },
 

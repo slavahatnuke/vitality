@@ -12,7 +12,7 @@ var Command = Class({
     stdout: false,
     stderr: false,
 
-    result: '',
+    output: '',
     code: 0,
 
     init: function (command, stdio) {
@@ -32,7 +32,7 @@ var Command = Class({
                 self.stdout = stdout;
                 self.stderr = stderr;
 
-                self.result = '' + stdout + stderr;
+                self.output = '' + stdout + stderr;
 
                 if (error) {
                     self.code = error.code;

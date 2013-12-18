@@ -1,0 +1,16 @@
+#in this profile I have definitions
+
+definition.key:
+  name: some name of defition for reading
+  if: some command
+  else: some command
+  depends: another.defintion.key
+
+# definition has constructions. construction has expression
+[definition]
+  [construction]: [expression]
+
+# we need profile handler
+# defintion handler
+# construction handler
+# and expression handler

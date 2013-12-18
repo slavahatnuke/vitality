@@ -16,7 +16,7 @@
         "underscore": "latest",
         "commander": "latest",
         "async": "latest",
-        "class": "latest"
+        "define-class": "latest"
     },
     "devDependencies": {
         "mocha": "latest",

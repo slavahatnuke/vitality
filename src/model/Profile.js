@@ -1,9 +1,9 @@
 var async = require('async');
-var Class = require('class');
+var Class = require('define-class');
 
-var Profile = Class.new({
+var Profile = Class({
 
-    initialize: function(){
+    init: function(){
         this.definitions = [];
     },
     add: function (definition) {

@@ -1,8 +1,8 @@
-var Class = require('class');
+var Class = require('define-class');
 
-var Definition = Class.new({
+var Definition = Class({
 
-    initialize: function(name, config){
+    init: function(name, config){
 
         this.name = name;
 

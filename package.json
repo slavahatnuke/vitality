@@ -21,7 +21,8 @@
     "devDependencies": {
         "mocha": "latest",
         "should": "latest",
-        "sinon": "latest"
+        "sinon": "latest",
+        "cucumber": "latest"
     },
     "readmeFilename": "README.md",
     "bin": {

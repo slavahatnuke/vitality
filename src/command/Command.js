@@ -21,6 +21,7 @@ var Command = Class({
         this.error = null;
     },
 
+
     run: function (next) {
         var self = this;
 

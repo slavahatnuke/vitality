@@ -7,31 +7,20 @@ var _ = require('underscore');
 var path = require('path');
 
 var Command = require('./command/Command');
-var Definition = require('./model/Definition');
-var Profile = require('./model/Profile');
-
+var ProfileBuilder = require('./builder/ProfileBuilder');
 
 var Vitality = Class({
 
     log: false,
+    profileBuilder: false,
 
     init: function(log){
         this.log = log ? log : console.log;
+        this.profileBuilder = new ProfileBuilder();
     },
     printDefinition: function (defenition, next) {
         this.log('[' + defenition.status + ']', defenition.title);
         next();
-    },
-
-    constructProfile: function (data) {
-
-        var profile = new Profile();
-
-        _(data).each(function (config, name) {
-            profile.add(new Definition(name, config));
-        });
-
-        return profile;
     },
 
     runProfile: function (profile) {
@@ -53,50 +42,51 @@ var Vitality = Class({
         var data = yaml.safeLoad(
             fs.readFileSync(path.resolve(file), 'utf8')
         );
-
-        var profile = this.constructProfile(data);
-
-        this.runProfile(profile);
+        this.runProfile(this.profileBuilder.build(data));
     },
-    runTest: function (defenition, next) {
+    runIf: function (defenition, next) {
+
+        var self = this;
+
+        var command = new Command(defenition.if);
+
+        command.run(function () {
+
+            defenition.test_output.error = command.stderr;
+            defenition.test_output.out = command.stdout;
+
+            defenition.tested = true;
+
+            if (command.code) {
+                defenition.status = 'fail';
+            } else {
+                defenition.status = 'ok';
+                defenition.tested_result = true;
+            }
+
+            if (!defenition.tested_result && defenition.else && !defenition.built) {
+
+                self.runBuild(defenition, function () {
+
+                    if (defenition.built) {
+                        self.runTest(defenition, next);
+                    }
+                    else {
+                        self.printDefinition(defenition, next);
+                    }
+
+                });
+            }
+            else {
+                self.printDefinition(defenition, next);
+            }
+        });
+    }, runTest: function (defenition, next) {
 
         var self = this;
 
         if (defenition.if) {
-
-            var command = new Command(defenition.if);
-
-            command.run(function () {
-
-                defenition.test_output.error = command.stderr;
-                defenition.test_output.out = command.stdout;
-
-                defenition.tested = true;
-
-                if (command.code) {
-                    defenition.status = 'fail';
-                } else {
-                    defenition.status = 'ok';
-                    defenition.tested_result = true;
-                }
-
-                if (!defenition.tested_result && defenition.else && !defenition.built) {
-
-                    self.runBuild(defenition, function () {
-
-                        if (defenition.built) {
-                            self.runTest(defenition, next);
-                        }
-                        else {
-                            self.printDefinition(defenition, next);
-                        }
-
-                    });
-                }
-                else {
-                    self.printDefinition(defenition, next);
-                }
-            });
+            this.runIf(defenition, next);
         }
         else {
             next();

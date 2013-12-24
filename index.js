@@ -12,7 +12,15 @@ program
     .command('*')
     .description('handle <file ...>')
     .action(function (profile) {
-        vitality.run(profile);
+        vitality.run(profile, function (err) {
+
+            if (err)
+            {
+                process.exit(1);
+            }
+
+            process.exit(0);
+        });
     });
 
 program.parse(process.argv);

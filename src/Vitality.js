@@ -23,26 +23,18 @@ var Vitality = Class({
         next();
     },
 
-    runProfile: function (profile) {
-
-        var next = function () {
-
-            profile.each(function (definition) {
-                if (definition.status == 'fail')
-                    process.exit(1);
-            });
-
-            process.exit(0);
-        };
-
-        profile.each(_(this.runTest).bind(this), next);
+    runProfile: function (profile, next) {
+        profile.each(_(this.runTest).bind(this), function () {
+            profile.hasFails(next);
+        });
     },
-    run: function (file) {
+    run: function (file, next) {
 
         var data = yaml.safeLoad(
             fs.readFileSync(path.resolve(file), 'utf8')
         );
-        this.runProfile(this.profileBuilder.build(data));
+
+        this.runProfile(this.profileBuilder.build(data), next);
     },
     runIf: function (defenition, next) {
 
@@ -66,7 +58,7 @@ var Vitality = Class({
 
             if (!defenition.tested_result && defenition.else && !defenition.built) {
 
-                self.runBuild(defenition, function () {
+                self.runElse(defenition, function () {
 
                     if (defenition.built) {
                         self.runTest(defenition, next);
@@ -81,7 +73,8 @@ var Vitality = Class({
                 self.printDefinition(defenition, next);
             }
         });
-    }, runTest: function (defenition, next) {
+    },
+    runTest: function (defenition, next) {
 
         var self = this;
 
@@ -93,7 +86,7 @@ var Vitality = Class({
         }
     },
 
-    runBuild: function (defenition, next) {
+    runElse: function (defenition, next) {
 
         console.log('[build]', defenition.title);
         console.log('>', defenition.else);

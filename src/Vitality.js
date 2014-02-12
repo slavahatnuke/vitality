@@ -32,18 +32,18 @@ var Vitality = Class({
         });
     },
     isLink: function (file) {
-        return /\@/.test(file);
+        return /\@\w*\//i.test(file);
     },
     prepareFile: function (file) {
 
-        if(!/(\.yml)$/.test(file))
+        if(!/(\.yml)$/i.test(file))
         {
             file += '.yml';
         }
 
         if(this.isLink(file))
         {
-            return file.replace('@', this.repository);
+            return file.replace('@/', this.repository);
         }
         else
         {
@@ -72,7 +72,9 @@ var Vitality = Class({
         }
         else
         {
-            var data = yaml.safeLoad(fs.readFileSync(file, 'utf8'));
+            if(!fs.existsSync(path)) return next(new Error('File is not exist: ' + path));
+
+            var data = yaml.safeLoad(fs.readFileSync(path, 'utf8'));
             next(null, data);
         }
 

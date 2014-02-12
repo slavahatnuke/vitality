@@ -8,11 +8,14 @@ var path = require('path');
 
 var Command = require('./command/Command');
 var ProfileBuilder = require('./builder/ProfileBuilder');
+var request = require('request');
 
 var Vitality = Class({
 
     log: false,
     profileBuilder: false,
+
+    repository: 'https://raw.github.com/slavahatnuke/vitalities/master/',
 
     init: function(log){
         this.log = log ? log : console.log;
@@ -28,13 +31,57 @@ var Vitality = Class({
             profile.hasFails(next);
         });
     },
+    isLink: function (file) {
+        return /\@/.test(file);
+    },
+    prepareFile: function (file) {
+
+        if(!/(\.yml)$/.test(file))
+        {
+            file += '.yml';
+        }
+
+        if(this.isLink(file))
+        {
+            return file.replace('@', this.repository);
+        }
+        else
+        {
+            return path.resolve(file);
+        }
+    },
+
+    prepareData: function (file, next) {
+
+        var path = this.prepareFile(file);
+
+        if (this.isLink(file)) {
+
+            request(path, function (err, response, body) {
+
+                if(err) return next(err);
+
+                if (response.statusCode == 200) {
+                    next(err, yaml.safeLoad(body));
+                }
+                else
+                {
+                    next(new Error('Could not load URL: ' + path));
+                }
+            });
+        }
+        else
+        {
+            var data = yaml.safeLoad(fs.readFileSync(file, 'utf8'));
+            next(null, data);
+        }
+
+    },
     run: function (file, next) {
-
-        var data = yaml.safeLoad(
-            fs.readFileSync(path.resolve(file), 'utf8')
-        );
-
-        this.runProfile(this.profileBuilder.build(data), next);
+        this.prepareData(file, function (err, data) {
+            if (err) return next(err);
+            this.runProfile(this.profileBuilder.build(data), next);
+        }.bind(this));
     },
     prepareCommand: function(command)
     {

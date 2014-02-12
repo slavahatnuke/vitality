@@ -13,7 +13,11 @@ program
     .description('handle <file ...>')
     .action(function (profile) {
         vitality.run(profile, function (err) {
-            if (err) return process.exit(1);
+            if (err)
+            {
+                console.log(err);
+                return process.exit(1);
+            }
             process.exit(0);
         });
     });

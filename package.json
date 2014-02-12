@@ -1,25 +1,25 @@
 {
-	"name": "vitality",
-	"version": "0.0.6",
-	"description": "vitality",
-	"main": "index.js",
-	"repository": {
-		"type": "git",
-		"url": "git@github.com:slavahatnuke/vitality.git"
-	},  
-	"scripts": {
-	},
-	"author": "slava hatnuke <slava.hatnuke@gmail.com> (https://github.com/slavahatnuke)",
-	"license": "BSD",
-    "dependencies": {
-        "js-yaml": "3.0.1",
-        "underscore": "1.6.0",
-        "commander": "2.1.0",
-        "async": "0.2.10",
-        "define-class": "0.0.2"
-    },
-    "readmeFilename": "README.md",
-    "bin": {
-        "vitality": "./bin/vitality"
-    }
+  "name": "vitality",
+  "version": "0.0.6",
+  "description": "vitality",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:slavahatnuke/vitality.git"
+  },
+  "scripts": {},
+  "author": "slava hatnuke <slava.hatnuke@gmail.com> (https://github.com/slavahatnuke)",
+  "license": "BSD",
+  "dependencies": {
+    "js-yaml": "3.0.1",
+    "underscore": "1.6.0",
+    "commander": "2.1.0",
+    "async": "0.2.10",
+    "define-class": "0.0.2",
+    "request": "~2.33.0"
+  },
+  "readmeFilename": "README.md",
+  "bin": {
+    "vitality": "./bin/vitality"
+  }
 }

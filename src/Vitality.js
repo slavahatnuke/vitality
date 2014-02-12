@@ -18,7 +18,7 @@ var Vitality = Class({
         this.log = log ? log : console.log;
         this.profileBuilder = new ProfileBuilder();
     },
-    printDefinition: function (defenition, next) {
+    print: function (defenition, next) {
         this.log('[' + defenition.status + ']', defenition.title);
         next();
     },
@@ -36,11 +36,29 @@ var Vitality = Class({
 
         this.runProfile(this.profileBuilder.build(data), next);
     },
+    prepareCommand: function(command)
+    {
+        if(typeof command == 'string')
+        {
+            return command;
+        }
+        else
+        {
+            var result = [];
+
+            _(command).each(function (cmd) {
+                result.push('(' + cmd + ')');
+            });
+
+            return result.join(' && ');
+        }
+    },
+
     runIf: function (defenition, next) {
 
         var self = this;
 
-        var command = new Command(defenition.if);
+        var command = new Command(this.prepareCommand(defenition.if));
 
         command.run(function () {
 
@@ -64,13 +82,13 @@ var Vitality = Class({
                         self.runTest(defenition, next);
                     }
                     else {
-                        self.printDefinition(defenition, next);
+                        self.print(defenition, next);
                     }
 
                 });
             }
             else {
-                self.printDefinition(defenition, next);
+                self.print(defenition, next);
             }
         });
     },
@@ -89,9 +107,11 @@ var Vitality = Class({
     runElse: function (defenition, next) {
 
         console.log('[build]', defenition.title);
-        console.log('>', defenition.else);
 
-        var command = new Command(defenition.else, true);
+        var command_line = this.prepareCommand(defenition.else);
+
+        console.log('>', command_line);
+        var command = new Command(command_line, true);
 
         command.run(function () {
 

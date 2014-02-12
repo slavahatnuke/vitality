@@ -14,14 +14,14 @@ var Profile = Class({
     },
     hasFails: function (next) {
 
-        this.each(function (definition, cb) {
+        this.each(function (definition, done) {
 
             if (definition.status == 'fail')
             {
-                cb(new Error(1));
+                done(new Error(1));
             }
 
-            cb();
+            done();
         }, next);
 
     }

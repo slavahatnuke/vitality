@@ -1,5 +1,11 @@
 
-lessc:
-  title:  lessc is installed
-  if:   which lessc
-  else: npm install -g less
+#install vitality :
+#  if: which vitality
+#  else: npm install -g vitality
+
+install vitality same:
+  if: which vitality
+  else:
+    - echo 'Start installing vitality'
+    - npm install -g vitality
+    - echo 'vitality was installed -g'

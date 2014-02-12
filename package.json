@@ -1,6 +1,6 @@
 {
 	"name": "vitality",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "vitality",
 	"main": "index.js",
 	"repository": {
@@ -12,11 +12,11 @@
 	"author": "slava hatnuke <slava.hatnuke@gmail.com> (https://github.com/slavahatnuke)",
 	"license": "BSD",
     "dependencies": {
-        "js-yaml": "latest",
-        "underscore": "latest",
-        "commander": "latest",
-        "async": "latest",
-        "define-class": "latest"
+        "js-yaml": "3.0.1",
+        "underscore": "1.6.0",
+        "commander": "2.1.0",
+        "async": "0.2.10",
+        "define-class": "0.0.2"
     },
     "readmeFilename": "README.md",
     "bin": {

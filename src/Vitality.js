@@ -96,7 +96,7 @@ var Vitality = Class({
             var result = [];
 
             _(command).each(function (cmd) {
-                result.push('(' + cmd + ')');
+                result.push(cmd);
             });
 
             return result.join(' && ');

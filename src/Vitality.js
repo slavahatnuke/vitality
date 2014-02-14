@@ -57,6 +57,8 @@ var Vitality = Class({
 
         if (this.isLink(file)) {
 
+            this.log('[load]', path);
+
             request(path, function (err, response, body) {
 
                 if(err) return next(err);

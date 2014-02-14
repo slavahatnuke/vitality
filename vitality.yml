@@ -1,7 +1,7 @@
 
-#install vitality :
-#  if: which vitality
-#  else: npm install -g vitality
+install vitality :
+  if: which vitality
+  else: npm install -g vitality
 
 install vitality same:
   if: which vitality
@@ -9,7 +9,6 @@ install vitality same:
     - echo 'Start installing vitality'
     - npm install -g vitality
     - echo 'vitality was installed -g'
-
 
 remote hello: ## repository https://github.com/slavahatnuke/vitalities
   if: vitality @/vitality.yml

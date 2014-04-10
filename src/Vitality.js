@@ -113,12 +113,16 @@ var Vitality = Class({
 
         command.run(function () {
 
-            defenition.test_output.error = command.stderr;
-            defenition.test_output.out = command.stdout;
-
             defenition.tested = true;
 
-            if (command.code) {
+            var failed = command.code;
+
+            if(defenition.if_not)
+            {
+                failed = !failed;
+            }
+
+            if (failed) {
                 defenition.status = 'fail';
             } else {
                 defenition.status = 'ok';
@@ -165,9 +169,6 @@ var Vitality = Class({
         var command = new Command(command_line, true);
 
         command.run(function () {
-
-            defenition.build_output.error = command.stderr;
-            defenition.build_output.out = command.stdout;
 
             defenition.built = true;
 

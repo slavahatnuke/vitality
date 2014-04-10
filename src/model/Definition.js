@@ -9,6 +9,15 @@ var Definition = Class({
         this.title = config.title ? config.title : name;
 
         this.if = config.if ? config.if : null;
+        this.if_not = false;
+
+        if(config['if.not'])
+        {
+            this.if = config['if.not'];
+            this.if_not = true;
+        }
+
+
         this.else = config.else ? config.else : null;
 
 //        this.passed = false;
@@ -23,15 +32,6 @@ var Definition = Class({
 
         this.status = 'skip';
 
-        this.test_output = {
-            error: null,
-            out: null
-        }
-
-        this.build_output = {
-            error: null,
-            out: null
-        }
     }
 });
 

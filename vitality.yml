@@ -2,6 +2,7 @@
 install vitality :
   if.show: true
   if: which vitality
+  else.show: false
   else: npm install -g vitality
 
 #

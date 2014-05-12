@@ -18,14 +18,14 @@ var Definition = Class({
 
         this.if_show = false;
 
-        if (config['if.show']) {
+        if (config['if.show'] != undefined) {
             this.if_show = config['if.show'] ? true : false;
         }
 
         this.else_show = true;
 
-        if (config['else.show']) {
-            this.if_show = config['else.show'] ? true : false;
+        if (config['else.show'] != undefined) {
+            this.else_show = config['else.show'] ? true : false;
         }
 
         this.else = config.else ? config.else : null;

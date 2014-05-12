@@ -1,5 +1,5 @@
 var yaml = require('js-yaml');
-var fs   = require('fs');
+var fs = require('fs');
 
 var Class = require('define-class');
 
@@ -17,7 +17,7 @@ var Vitality = Class({
 
     repository: 'https://raw.github.com/slavahatnuke/vitalities/master/',
 
-    init: function(log){
+    init: function (log) {
         this.log = log ? log : console.log;
         this.profileBuilder = new ProfileBuilder();
     },
@@ -36,17 +36,14 @@ var Vitality = Class({
     },
     prepareFile: function (file) {
 
-        if(!/(\.yml)$/i.test(file))
-        {
+        if (!/(\.yml)$/i.test(file)) {
             file += '.yml';
         }
 
-        if(this.isLink(file))
-        {
+        if (this.isLink(file)) {
             return file.replace('@/', this.repository);
         }
-        else
-        {
+        else {
             return path.resolve(file);
         }
     },
@@ -61,20 +58,18 @@ var Vitality = Class({
 
             request(path, function (err, response, body) {
 
-                if(err) return next(err);
+                if (err) return next(err);
 
                 if (response.statusCode == 200) {
                     next(err, yaml.safeLoad(body));
                 }
-                else
-                {
+                else {
                     next(new Error('Could not load URL: ' + path));
                 }
             });
         }
-        else
-        {
-            if(!fs.existsSync(path)) return next(new Error('File is not exist: ' + path));
+        else {
+            if (!fs.existsSync(path)) return next(new Error('File is not exist: ' + path));
 
             var data = yaml.safeLoad(fs.readFileSync(path, 'utf8'));
             next(null, data);
@@ -87,14 +82,11 @@ var Vitality = Class({
             this.runProfile(this.profileBuilder.build(data), next);
         }.bind(this));
     },
-    prepareCommand: function(command)
-    {
-        if(typeof command == 'string')
-        {
+    prepareCommand: function (command) {
+        if (typeof command == 'string') {
             return command;
         }
-        else
-        {
+        else {
             var result = [];
 
             _(command).each(function (cmd) {
@@ -109,7 +101,14 @@ var Vitality = Class({
 
         var self = this;
 
-        var command = new Command(this.prepareCommand(defenition.if));
+        var command_line = this.prepareCommand(defenition.if);
+
+        if (defenition.if_show && !defenition.built) {
+            console.log('[if]', defenition.title);
+            console.log('>', command_line);
+        }
+
+        var command = new Command(command_line, defenition.if_show);
 
         command.run(function () {
 
@@ -117,8 +116,7 @@ var Vitality = Class({
 
             var failed = command.code;
 
-            if(defenition.if_not)
-            {
+            if (defenition.if_not) {
                 failed = !failed;
             }
 
@@ -166,7 +164,7 @@ var Vitality = Class({
         var command_line = this.prepareCommand(defenition.else);
 
         console.log('>', command_line);
-        var command = new Command(command_line, true);
+        var command = new Command(command_line, defenition.else_show);
 
         command.run(function () {
 

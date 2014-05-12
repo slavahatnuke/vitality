@@ -2,7 +2,7 @@ var Class = require('define-class');
 
 var Definition = Class({
 
-    init: function(name, config){
+    init: function (name, config) {
 
         this.name = name;
 
@@ -11,12 +11,22 @@ var Definition = Class({
         this.if = config.if ? config.if : null;
         this.if_not = false;
 
-        if(config['if.not'])
-        {
+        if (config['if.not']) {
             this.if = config['if.not'];
             this.if_not = true;
         }
 
+        this.if_show = false;
+
+        if (config['if.show']) {
+            this.if_show = config['if.show'] ? true : false;
+        }
+
+        this.else_show = true;
+
+        if (config['else.show']) {
+            this.if_show = config['else.show'] ? true : false;
+        }
 
         this.else = config.else ? config.else : null;
 

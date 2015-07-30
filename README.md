@@ -33,7 +33,7 @@ mysql online:
 
 result will be as
 
-```sh
+```
 $ vitality install.yml
 [ok] install vitality
 [ok] mongo

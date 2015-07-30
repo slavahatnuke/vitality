@@ -3,6 +3,7 @@ Vitality
 
 The simplest lazy provisioner or health checker:
 
+install: `npm install -g vitality`
 
 `vitality install.yml`
 
@@ -27,6 +28,17 @@ mysql:
 mysql online:
   if: ps aux | grep mysqld | grep /bin/mysql
   else: service mysql restart
+
+```
+
+result will be as
+
+```sh
+$ vitality install.yml
+[ok] install vitality
+[ok] mongo
+[ok] mysql
+[ok] mysql online
 
 ```
 

@@ -3,19 +3,16 @@ var fs = require('fs');
 
 var Class = require('define-class');
 
-var _ = require('underscore');
+var _ = require('lodash');
 var path = require('path');
 
 var Command = require('./command/Command');
 var ProfileBuilder = require('./builder/ProfileBuilder');
-var request = require('request');
 
 var Vitality = Class({
 
     log: false,
     profileBuilder: false,
-
-    repository: 'https://raw.github.com/slavahatnuke/vitalities/master/',
 
     init: function (log) {
         this.log = log ? log : console.log;
@@ -27,12 +24,9 @@ var Vitality = Class({
     },
 
     runProfile: function (profile, next) {
-        profile.each(_(this.runTest).bind(this), function () {
+        profile.each(this.runTest.bind(this), function () {
             profile.hasFails(next);
         });
-    },
-    isLink: function (file) {
-        return /\@\w*\//i.test(file);
     },
     prepareFile: function (file) {
 
@@ -40,41 +34,14 @@ var Vitality = Class({
             file += '.yml';
         }
 
-        if (this.isLink(file)) {
-            return file.replace('@/', this.repository);
-        }
-        else {
-            return path.resolve(file);
-        }
+        return path.resolve(file);
     },
-
     prepareData: function (file, next) {
-
         var path = this.prepareFile(file);
+        if (!fs.existsSync(path)) return next(new Error('File is not exist: ' + path));
 
-        if (this.isLink(file)) {
-
-            this.log('[load]', path);
-
-            request(path, function (err, response, body) {
-
-                if (err) return next(err);
-
-                if (response.statusCode == 200) {
-                    next(err, yaml.safeLoad(body));
-                }
-                else {
-                    next(new Error('Could not load URL: ' + path));
-                }
-            });
-        }
-        else {
-            if (!fs.existsSync(path)) return next(new Error('File is not exist: ' + path));
-
-            var data = yaml.safeLoad(fs.readFileSync(path, 'utf8'));
-            next(null, data);
-        }
-
+        var data = yaml.safeLoad(fs.readFileSync(path, 'utf8'));
+        next(null, data);
     },
     run: function (file, next) {
         this.prepareData(file, function (err, data) {
@@ -89,7 +56,7 @@ var Vitality = Class({
         else {
             var result = [];
 
-            _(command).each(function (cmd) {
+            _.each(command, function (cmd) {
                 result.push(cmd);
             });
 

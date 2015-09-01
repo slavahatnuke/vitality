@@ -1,5 +1,5 @@
 var Class = require('define-class');
-var _ = require('underscore');
+var _ = require('lodash');
 
 var Definition = require('../model/Definition');
 var Profile = require('../model/Profile');
@@ -10,7 +10,7 @@ var ProfileBuilder = Class({
 
         var profile = new Profile();
 
-        _(data).each(function (config, name) {
+        _.each(data, function (config, name) {
             profile.add(new Definition(name, config));
         });
 

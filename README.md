@@ -1,18 +1,18 @@
 Vitality
 ===
 
+[Examples](https://github.com/slavahatnuke/vitalities)
+
 The simplest lazy provisioner or health checker:
 
 install: `npm install -g vitality`
+
+ubuntu installation (vitality/node.js): `which vitality || curl https://raw.githubusercontent.com/slavahatnuke/vitality/master/install/ubuntu.sh | sudo sh`
 
 `vitality install.yml`
 
 __install.yml__
 ```
-
-install vitality :
-  if: which vitality
-  else: npm install -g vitality
 
 mongo:
   if:   which mongo
@@ -35,7 +35,6 @@ result will be as
 
 ```
 $ vitality install.yml
-[ok] install vitality
 [ok] mongo
 [ok] mysql
 [ok] mysql online

@@ -5,10 +5,13 @@ Vitality
 
 The simplest lazy provisioner or health checker:
 
-install: `npm install -g vitality`
+- `npm install -g vitality`
+- `vitality install.yml`
 
-ubuntu installation (vitality/node.js): 
+ubuntu installation (vitality/node.js):
+
 - `which vitality || curl https://raw.githubusercontent.com/slavahatnuke/vitality/master/install/ubuntu.sh | sudo sh`
+
 
 `vitality install.yml`
 

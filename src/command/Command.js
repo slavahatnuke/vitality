@@ -25,7 +25,7 @@ var Command = Class({
     run: function (next) {
         var self = this;
 
-        this.process = exec(this.command,
+        this.process = exec(this.command, {maxBuffer: 2*1024*1024*1024},
             function (error, stdout, stderr) {
 
                 self.error = error;
